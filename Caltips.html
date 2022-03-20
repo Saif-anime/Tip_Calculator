@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Tips</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .d-flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .box {
+            background-color: aliceblue;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 50vw;
+            height: 70vh;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
+
+        .box h1 {
+            font: bold;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.5em;
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+
+        .items {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            padding: 9px 0px;
+            font-size: 20px;
+        }
+
+        .items input {
+            font-size: 20px;
+            padding: 5px 6px;
+        }
+
+        #Round {
+            margin-left: 20px;
+        }
+
+        #Divide {
+            margin-left: 50px;
+            margin-right: 5px;
+        }
+
+        #Tip_Percent {
+            margin-left: 41px;
+            margin-right: 5px;
+        }
+
+        #Bill_Amount {
+            margin-left: 34px;
+        }
+
+        .Result {
+            background: white;
+            width: 40%;
+            height: 20%;
+            font-size: 20px;
+            font-weight: 500;
+            color: black;
+            font-family: monospace;
+            display: none;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            background: #426fe2;
+            border: none;
+            color: white;
+            font-size: 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .box:focus{
+            background-color: #426fe2dc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex">
+        <div class="box">
+            <h1>Tip Calculator</h1>
+            <div class="items">
+                <label for="Bill Amount">Bill Amount:</label>
+                <input type="number" id="Bill_Amount" value="0">
+            </div>
+            <div class="items">
+                <label for="Tip Percent">Tip Percent:</label>
+                <input type="number" value="0" id="Tip_Percent"><span>%</span>
+            </div>
+            <div class="items">
+                <label for="Divide By">Divide By:</label>
+                <input type="number" id="Divide" value="1"><span>People</span>
+            </div>
+            <div class="items">
+                <label for="Round to Rupees">Round to Rupees</label>
+                <input type="checkbox" id="Round">
+            </div>
+            <input class="btn" type="button" value="Calculate" onclick="Calculate()">
+            <div class="Result">
+                <table class="d-none">
+                    <tr>
+                        <td>Tip Total</td>
+                        <td id="ttotal"></td>
+                    </tr>
+                    <tr>
+                        <td>Bill Total</td>
+                        <td id="btotal"></td>
+                    </tr>
+                    <tr>
+                        <td>Each Person</td>
+                        <td id="eachp"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script>
+    const Calculate = () => {
+        let bill = Number(document.getElementById("Bill_Amount").value);
+        let Tip = Number(document.getElementById("Tip_Percent").value);
+        let Divide = Number(document.getElementById("Divide").value);
+        let Round = document.getElementById("Round");
+        let Result = document.querySelector(".Result");
+        Result.style.display = 'block'
+        // Total tip
+        let total_tip = bill * Tip / 100;
+        // Bill Total
+        let Bill_total = bill + total_tip;
+        // Divide Each Person
+        let Divid_Each = Bill_total / Divide
+
+        if (Round.checked == true) {
+            let tip_round = Math.round(total_tip);
+            let billt_round = Math.round(Bill_total);
+            let div_round = Math.round(Divid_Each);
+            let ttotal = document.getElementById("ttotal");
+            let btotal = document.getElementById("btotal");
+            let eachp = document.getElementById("eachp");
+            ttotal.innerHTML = `${tip_round} ₹`
+            btotal.innerHTML = `${billt_round} ₹`
+            eachp.innerHTML = `${div_round} ₹`
+        }
+        else {
+            ttotal.innerHTML = `${total_tip} ₹`
+            btotal.innerHTML = `${Bill_total} ₹`
+            eachp.innerHTML = `${Divid_Each} ₹`
+        }
+
+    }
+</script>
+
+</html>
